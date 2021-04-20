@@ -1,26 +1,38 @@
-
 import React from 'react';
 import './App.css'
 import Nav from './Nav'
 import Homepage from './Homepage';
 import About from './About';
 import Form from './Form';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
-
+import {BrowserRouter as Router, Route,Link} from 'react-router-dom';
+import Products from './Products';
+import NewForm from './NewForm'
+import Cart from './Cart';
+import ProductItem from './ProductItem';
 
 function App() {
   return (
-    <Router>
+     <Router>
     <div className="App">
-      <h1>Logo</h1>
-
      <Nav/>
-     
-     <Route path="/about" component={About} />
+     {/* <About/> */}
+     {/* <Route/>
+     */}
+     <Route path="/About" component={About} />
      <Route path = "/homepage" component={Homepage} />
      <Route path = "/Form" component = {Form} />
+     <Route path = "/Products" component = {Products}/>
+     <Route path = "/Cart" component = {Cart}/> 
+     <Route path ="/pro" component={ProductItem}/>
+    
     </div>
-    </Router>
+    {/* <div>
+    <Link  to={"./Homepage"}>
+                       <button>Products</button>
+                    </Link>
+    </div> */}
+
+     </Router>
   );
 }
 

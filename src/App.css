@@ -28,3 +28,8 @@ nav {
   color: white;
   text-align: center;
 }
+
+table,th,tr{
+  border: 1px solid black;
+  width: 50%;
+}

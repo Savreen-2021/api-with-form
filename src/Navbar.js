@@ -22,6 +22,12 @@ function Navbar() {
             <Link style={navStyle} to='/contact'>
                 <li>Contact</li>
             </Link>
+            <Link style={navStyle} to='/products'>
+                <li>products</li>
+            </Link>
+            <Link style={navStyle} to='/cart'>
+                <li>Cart</li>
+            </Link>
         </ul>
     </nav>
   );

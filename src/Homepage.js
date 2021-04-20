@@ -1,83 +1,104 @@
-//data goes to same page
+import { render } from "@testing-library/react";
+import React , {useState,useEffect} from "react";
+import { Link } from "react-router-dom";
+import CartIcon from './svg/shopping-cart-solid.svg'
 
-import React , {useState} from "react";
-import Bar from './Bar';
-import {Link} from 'react-router-dom';
+const Homepage = (props) =>{
 
-const Form = () => {
-    // useEffect( () => {
+    const [products , setProducts ] = useState([]);
+    const [search,setSearch] = useState('');
+    const [filterSearch,setFilterSearch] = useState([]);
+    const [addCart,setaddCart]= useState([]);
+    
+    
+    useEffect(  () => {
+        getProducts();
+        setaddCart(JSON.parse(localStorage.getItem('cartdata')) || [])
+        // localStorage.setItem("data", JSON.stringify(products));
+    } , [addCart]);
 
-    //     //api calling
-
-    //     fetch('https://jsonplaceholder.typicode.com/users')
-    //     .then(res => res.json()) 
-    //     .then(data => {
-
-    //         saveUserData(data)
-        
-    //     })
-    //     .catch(err=> console.log(err));
-
-    // } , [])
-    const[object, setFormData] = useState({})
-
-    const saveData = () =>{console.log(object)}
-
-    // const [ allUserData , saveUserData ] = useState([]) 
-
-    // const saveData = () =>{
-    //     console.log(object)
+    // const handle = () => {
+    //     localStorage.setItem("data", JSON.stringify(products));
     // }
-    
 
-    return(
-        <>
-{/* 
+    useEffect(()=>{
+        setFilterSearch(
+            products.filter(user=>{
+            return user.title.toLowerCase().includes(search.toLowerCase())
+          })
+        )
+      },[search,products])
 
-         <table>
-                
-                <th>Name</th>
-                       <th>Email</th>
-                        <th>Username</th>
-                    <tbody>
-                        {
-                            allUserData.map( (value,index)=>{
-                                return(
-                                    <tr>
-                                    <td>
-                                    {value.name}
-                                    </td> 
-                                    <td>
-                                    {value.email}
-                                    </td> 
-                                    <td>
-                                    {value.username}
-                                    </td> 
-                                     </tr>
-                                )
-    
-                            } )
-                        }
-                        
-                    </tbody>
-    
-                </table> */}
+    const getProducts = async () =>{
+        let products = await fetch("https://fakestoreapi.com/products");
+        products = await products.json();
+        setProducts(products);
+        console.log(products);
+ 
+    }
 
-        <Bar object={object}/>
-            <h2>Fill your details over here</h2>
-            <form onSubmit={ (e) =>e.preventDefault()}>
-                <input type = "text" value={object.firstname} placeholder = "Name" onChange= {(e) =>setFormData({...object, firstname : e.target.value}) } ></input><br/>
-
-                <input type = "text" value={object.lastname}  placeholder = "Lastname" onChange= {(e) =>setFormData({...object, lastname : e.target.value}) } ></input><br/>
-
-                <input type = "text" value={object.email}  placeholder = "Email" onChange= {(e) =>setFormData({...object, email : e.target.value}) } ></input><br/>
-
-               <Link to= "./About"> <button onClick= { () =>saveData() }>SubmitDetails</button></Link>
-                
-            </form>
-            
-        </>
-    )
+const addToCart=(values)=>{
+addCart.push(values)
+localStorage.setItem("cartdata",JSON.stringify(addCart))
 }
 
-export default Form;
+    return(
+        <div>
+            
+            <div>
+            <Link to="/cart">
+                            <img src={CartIcon} alt="" width="20" /> {addCart.length}
+                        </Link>
+    
+            </div>
+                  <input type="text" placeholder="Search" onChange={e=>setSearch(e.target.value)}/>  
+                 
+           <h3>Products page</h3>
+
+           {
+               products.length > 0 ? 
+               
+               filterSearch.map((value,index)=>{
+                
+                    return(
+                        <div key={index} style={{ display:"inline-flex" , overflow:"hidden"  }} >
+                            
+                            <div style={{ width : "250px" , height : "340px", backgroundColor : "#FFF", border : "1px solid #DCDCDC" ,padding:20 , margin : 10 , boxShadow : "0px 0px 5px #CCC" }}>
+
+                                <img src={ value.image } style={ { display: "block" , margin:"0 auto", width:"200px",height:"200px" } } />
+                                
+                                <div>
+                                    <h5 >
+                                        { value.title }
+                                        <small style={{textAlign:'right',float:"right"}}>${value.price}</small>
+                                        
+                                    </h5>
+                                </div>
+
+                                <div style={{textAlign:"center" ,  paddingTop:10 }}>
+                                <Link  to={"./Products"}>
+                                    <button style={{ marginRight:10, background : "#3495ED" , border:"0px", boxShadow:"0px 0px 2px #000", borderRadius : 5, padding : 10 , color:"#FFF" }}>View Product</button>
+                                </Link>
+                                  
+                                    <button style={{ background : "green" , border:"0px", padding : 10,borderRadius : 5, boxShadow:"0px 0px 2px #000", color:"#FFF" }} onClick={()=>addToCart(value)}>Add To Cart </button>
+                                    {/* <button style={{ background : "green" , border:"0px", padding : 10,borderRadius : 5, boxShadow:"0px 0px 2px #000", color:"#FFF" }} onClick={()=>setProducts(value.title)}>Cart </button> */}
+                                    {/* </Link> */}
+                                   
+                                </div>
+                               
+                            </div>
+
+                        </div>
+
+                    )
+
+               }) 
+               
+               : <p>No Products found</p>
+           } 
+
+        </div>
+    );
+}
+
+export default Homepage
