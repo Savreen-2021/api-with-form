@@ -9,7 +9,7 @@ import Products from './Products';
 import NewForm from './NewForm'
 import Cart from './Cart';
 import ProductItem from './ProductItem';
-
+import Checkout from "./Checkout"
 function App() {
   return (
      <Router>
@@ -24,6 +24,7 @@ function App() {
      <Route path = "/Products" component = {Products}/>
      <Route path = "/Cart" component = {Cart}/> 
      <Route path ="/pro" component={ProductItem}/>
+     <Route path ="/checkout" component={Checkout}/>
     
     </div>
     {/* <div>

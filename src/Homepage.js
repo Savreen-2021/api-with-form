@@ -38,8 +38,10 @@ const Homepage = (props) =>{
     }
 
 const addToCart=(values)=>{
-addCart.push(values)
-localStorage.setItem("cartdata",JSON.stringify(addCart))
+    values["qty"]=1;
+addCart.push(values);
+localStorage.setItem("cartdata",JSON.stringify(addCart));
+
 }
 
     return(
@@ -47,8 +49,8 @@ localStorage.setItem("cartdata",JSON.stringify(addCart))
             
             <div>
             <Link to="/cart">
-                            <img src={CartIcon} alt="" width="20" /> {addCart.length}
-                        </Link>
+            <img src={CartIcon} alt="" width="20" /> {addCart.length}
+            </Link>
     
             </div>
                   <input type="text" placeholder="Search" onChange={e=>setSearch(e.target.value)}/>  

@@ -11,13 +11,16 @@ import CartIcon from './svg/shopping-cart-solid.svg'
                 <Route path = "/Products" component = {Products} />
                 </Router> */}
                 <ul className="nav-links">
+                    
+                    <h1 style={{color:'#FF6666'}}>Start Shopping</h1>
+                    <Link to="/cart">
+                            <img src={CartIcon} alt="" width="20"/>
+                        </Link>
                     <Link  to={"./About"}>
                         <li>
-                            About
+                            login
                         </li>
                     </Link>
-
-                    <h1 style={{color:'#FF6666'}}>Start Shopping</h1>
                     
                     {/* <Link to={"./Homepage"}> */}
                         {/* <li>Homepage</li> */}
@@ -31,9 +34,9 @@ import CartIcon from './svg/shopping-cart-solid.svg'
                     {/* </Link> */}
                     <div className="nav-cart">
                         {/* <span>{cart.length}</span> */}
-                        <Link to="/cart">
+                        {/* <Link to="/cart">
                             <img src={CartIcon} alt="" width="20"/>
-                        </Link>
+                        </Link> */}
                     </div>
                 </ul>
             </nav>
